@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = $_ENV['BASE_URL'];
+$config['base_url'] = 'https://softwarekids.cleverapps.io/';  // Tu dominio completo con https://
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -28,7 +28,7 @@ $config['base_url'] = $_ENV['BASE_URL'];
 | variable so that it is blank.
 |
 */
-$config['base_url'] = 'https://softwarekids.cleverapps.io';
+$config['index_page'] = '';  // Deja vacío para eliminar 'index.php' de URLs
 
 /*
 |--------------------------------------------------------------------------
