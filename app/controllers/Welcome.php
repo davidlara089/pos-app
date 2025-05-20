@@ -6,9 +6,13 @@ class Welcome extends MY_Controller
     function __construct() {
         parent::__construct();
 
-        if (! $this->loggedIn) {
-            redirect('login');
-        }
+    //    if (! $this->loggedIn) {
+      //      redirect('login');
+        //}
+        public function index() {
+    echo "Bienvenido al sistema sin login.";
+}
+
         if (version_compare($this->Settings->version, '4.0.14', '<=')) {
             $this->load->model('db_update');
             $this->db_update->update();
