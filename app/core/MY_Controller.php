@@ -6,7 +6,8 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
 
         $this->Settings = $this->site->getSettings();
-        if($spos_language = $this->input->cookie('spos_language', TRUE)) {
+
+        if ($spos_language = $this->input->cookie('spos_language', TRUE)) {
             $this->Settings->selected_language = $spos_language;
             $this->config->set_item('language', $spos_language);
             $this->lang->load('app', $spos_language);
@@ -15,11 +16,33 @@ class MY_Controller extends CI_Controller {
             $this->config->set_item('language', $this->Settings->language);
             $this->lang->load('app', $this->Settings->language);
         }
+
         $this->Settings->pin_code = $this->Settings->pin_code ? md5($this->Settings->pin_code) : NULL;
-        $this->theme = $this->Settings->theme.'/views/';
+        $this->theme = $this->Settings->theme . '/views/';
         $this->data['assets'] = base_url() . 'themes/default/assets/';
         $this->data['Settings'] = $this->Settings;
+
+        // --- AUTLOGIN SI NO ESTÁ LOGUEADO ---
         $this->loggedIn = $this->tec->logged_in();
+
+        if (! $this->loggedIn) {
+            $user_id = 1; // Cambia esto por el ID del usuario que quieras usar
+            $user = $this->site->getUser($user_id);
+
+            if ($user) {
+                $session_data = [
+                    'user_id'   => $user->id,
+                    'username'  => $user->username,
+                    'email'     => $user->email,
+                    'group_id'  => $user->group_id,
+                    'store_id'  => $user->store_id,
+                    'logged_in' => true
+                ];
+                $this->session->set_userdata($session_data);
+                $this->loggedIn = true;
+            }
+        }
+
         $this->data['loggedIn'] = $this->loggedIn;
         $this->data['store'] = $this->site->getStoreByID($this->session->userdata('store_id'));
         $this->data['categories'] = $this->site->getAllCategories();
@@ -27,23 +50,27 @@ class MY_Controller extends CI_Controller {
         $this->data['Admin'] = $this->Admin;
         $this->m = strtolower($this->router->fetch_class());
         $this->v = strtolower($this->router->fetch_method());
-        $this->data['m']= $this->m;
+        $this->data['m'] = $this->m;
         $this->data['v'] = $this->v;
     }
 
     function page_construct($page, $data = array(), $meta = array()) {
-        if(empty($meta)) { $meta['page_title'] = $data['page_title']; }
+        if (empty($meta)) {
+            $meta['page_title'] = $data['page_title'];
+        }
+
         $meta['message'] = isset($data['message']) ? $data['message'] : $this->session->flashdata('message');
-        $meta['error'] = isset($data['error']) ? $data['error'] : $this->session->flashdata('error');
+        $meta['error']   = isset($data['error']) ? $data['error']   : $this->session->flashdata('error');
         $meta['warning'] = isset($data['warning']) ? $data['warning'] : $this->session->flashdata('warning');
         $meta['ip_address'] = $this->input->ip_address();
-        $meta['Admin'] = $data['Admin'];
+        $meta['Admin']   = $data['Admin'];
         $meta['loggedIn'] = $data['loggedIn'];
         $meta['Settings'] = $data['Settings'];
-        $meta['assets'] = $data['assets'];
-        $meta['store'] = $data['store'];
+        $meta['assets']   = $data['assets'];
+        $meta['store']    = $data['store'];
         $meta['suspended_sales'] = $this->site->getUserSuspenedSales();
         $meta['qty_alert_num'] = $this->site->getQtyAlerts();
+
         $this->load->view($this->theme . 'header', $meta);
         $this->load->view($this->theme . $page, $data);
         $this->load->view($this->theme . 'footer');
