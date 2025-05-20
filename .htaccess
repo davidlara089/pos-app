@@ -8,9 +8,6 @@ RewriteCond %{REQUEST_URI} !^(index\.php|assets|install|update)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Regla para redirigir /login a /auth/login
-RewriteRule ^login$ auth/login [L]
-
 # Redirigir todas las peticiones a index.php
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
