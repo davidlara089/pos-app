@@ -2,6 +2,9 @@
 
 class Site extends CI_Model
 {
+public function getUser($id) {
+    return $this->db->get_where('users', ['id' => $id])->row();
+}
 
     public function __construct() {
         parent::__construct();
