@@ -5,7 +5,7 @@ class Welcome extends MY_Controller
     function __construct() {
         parent::__construct();
 
-        // DESACTIVAR TEMPORALMENTE LOGIN OBLIGATORIO
+        // COMENTA ESTO PARA SALTAR LOGIN
         // if (! $this->loggedIn) {
         //     redirect('login');
         // }
@@ -14,13 +14,15 @@ class Welcome extends MY_Controller
             $this->load->model('db_update');
             $this->db_update->update();
         }
+
         $this->load->model('welcome_model');
+
         if ($register = $this->site->registerData($this->session->userdata('user_id'))) {
             $register_data = array(
-                'register_id' => $register->id,
-                'cash_in_hand' => $register->cash_in_hand,
+                'register_id'        => $register->id,
+                'cash_in_hand'       => $register->cash_in_hand,
                 'register_open_time' => $register->date,
-                'store_id' => $register->store_id
+                'store_id'           => $register->store_id
             );
             $this->session->set_userdata($register_data);
         }
@@ -30,6 +32,7 @@ class Welcome extends MY_Controller
         echo "Bienvenido al sistema sin login.";
     }
 }
+
 
 
     function index() {
