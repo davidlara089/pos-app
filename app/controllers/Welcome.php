@@ -5,10 +5,9 @@ class Welcome extends MY_Controller
     function __construct() {
         parent::__construct();
 
-        // COMENTA ESTO PARA SALTAR LOGIN
         // if (! $this->loggedIn) {
-        //     redirect('login');
-        // }
+      //     redirect('login');
+     //   }
 
         if (version_compare($this->Settings->version, '4.0.14', '<=')) {
             $this->load->model('db_update');
@@ -27,13 +26,6 @@ class Welcome extends MY_Controller
             $this->session->set_userdata($register_data);
         }
     }
-
-    public function index() {
-        echo "Bienvenido al sistema sin login.";
-    }
-}
-
-
 
     function index() {
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
