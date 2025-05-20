@@ -13,7 +13,8 @@ class Auth extends MY_Controller {
 
     function index() {
         if (!$this->loggedIn) {
-redirect('auth/login');
+redirect('login');
+
         } elseif($this->Admin) {
             redirect('admin');
         } else {
@@ -23,7 +24,8 @@ redirect('auth/login');
 
     function users() {
         if (!$this->loggedIn) {
-            redirect('auth/login');
+            redirect('login');
+
 
         }
         if (!$this->Admin) {
@@ -148,7 +150,8 @@ redirect('auth/login');
             } else {
                 $this->session->set_flashdata('error', $this->ion_auth->errors());
                 sleep(2);
-               redirect('auth/login');
+               redirect('login');
+
 
             }
         } else {
@@ -216,7 +219,8 @@ redirect('auth/login');
 
     function change_password() {
         if (!$this->ion_auth->logged_in()) {
-            redirect('auth/login');
+            redirect('login');
+
 
         }
         $this->form_validation->set_rules('old_password', lang('old_password'), 'required');
@@ -332,7 +336,8 @@ redirect('auth/login');
 
                     if ($change) {
                         $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect('auth/login');
+                        redirect('login');
+
 
                     } else {
                         $this->session->set_flashdata('error', $this->ion_auth->errors());
