@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = $_ENV['BASE_URL'];
+$config['base_url'] = 'https://softwarekids.cleverapps.io/';
 
 /*
 |--------------------------------------------------------------------------
