@@ -28,7 +28,7 @@ $config['base_url'] = $_ENV['BASE_URL'];
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['base_url'] = 'https://softwarekids.cleverapps.io/';
 
 /*
 |--------------------------------------------------------------------------
