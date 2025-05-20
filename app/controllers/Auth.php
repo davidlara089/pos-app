@@ -13,7 +13,7 @@ class Auth extends MY_Controller {
 
     function index() {
         if (!$this->loggedIn) {
-            redirect('login');
+redirect('auth/login');
         } elseif($this->Admin) {
             redirect('admin');
         } else {
@@ -23,7 +23,8 @@ class Auth extends MY_Controller {
 
     function users() {
         if (!$this->loggedIn) {
-            redirect('login');
+            redirect('auth/login');
+
         }
         if (!$this->Admin) {
             $this->session->set_flashdata('warning', lang("access_denied"));
@@ -147,7 +148,8 @@ class Auth extends MY_Controller {
             } else {
                 $this->session->set_flashdata('error', $this->ion_auth->errors());
                 sleep(2);
-                redirect('login');
+               redirect('auth/login');
+
             }
         } else {
 
@@ -214,7 +216,8 @@ class Auth extends MY_Controller {
 
     function change_password() {
         if (!$this->ion_auth->logged_in()) {
-            redirect('login');
+            redirect('auth/login');
+
         }
         $this->form_validation->set_rules('old_password', lang('old_password'), 'required');
         $this->form_validation->set_rules('new_password', lang('new_password'), 'required|max_length[25]');
@@ -329,7 +332,8 @@ class Auth extends MY_Controller {
 
                     if ($change) {
                         $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect('login');
+                        redirect('auth/login');
+
                     } else {
                         $this->session->set_flashdata('error', $this->ion_auth->errors());
                         redirect('auth/reset_password/' . $code);
