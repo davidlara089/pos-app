@@ -2,16 +2,13 @@
 
 class Welcome extends MY_Controller
 {
-
     function __construct() {
         parent::__construct();
 
-    //    if (! $this->loggedIn) {
-      //      redirect('login');
-        //}
-        public function index() {
-    echo "Bienvenido al sistema sin login.";
-}
+        // DESACTIVAR TEMPORALMENTE LOGIN OBLIGATORIO
+        // if (! $this->loggedIn) {
+        //     redirect('login');
+        // }
 
         if (version_compare($this->Settings->version, '4.0.14', '<=')) {
             $this->load->model('db_update');
@@ -19,10 +16,21 @@ class Welcome extends MY_Controller
         }
         $this->load->model('welcome_model');
         if ($register = $this->site->registerData($this->session->userdata('user_id'))) {
-            $register_data = array('register_id' => $register->id, 'cash_in_hand' => $register->cash_in_hand, 'register_open_time' => $register->date, 'store_id' => $register->store_id);
+            $register_data = array(
+                'register_id' => $register->id,
+                'cash_in_hand' => $register->cash_in_hand,
+                'register_open_time' => $register->date,
+                'store_id' => $register->store_id
+            );
             $this->session->set_userdata($register_data);
         }
     }
+
+    public function index() {
+        echo "Bienvenido al sistema sin login.";
+    }
+}
+
 
     function index() {
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
